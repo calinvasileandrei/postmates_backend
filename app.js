@@ -3,9 +3,11 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 mongoose.set('useUnifiedTopology', true);
 mongoose.set('useNewUrlParser', true);
 require('dotenv/config');
+
 
 
 //Middleweare
@@ -28,11 +30,24 @@ app.use('/sections',sectionRoute)
 const productRoute = require('./routes/product');
 app.use('/products',productRoute)
 
+const userRoute = require('./routes/user');
+app.use('/users',userRoute)
+
+
+const authRoute = require('./routes/auth');
+app.use('/auth',authRoute.router)
+
 //ROUTES
 app.get('/', (req,res)=> {
     res.send('We are on home');
 });
 
+//error handling
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({error:"invalid_token"});
+    }
+});
 
 //Connect to db
 mongoose

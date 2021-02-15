@@ -5,6 +5,7 @@ const CategorySchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    restaurant: {type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant'},
     products: [
         {type: mongoose.Schema.Types.ObjectId, ref: 'Product'}
     ],

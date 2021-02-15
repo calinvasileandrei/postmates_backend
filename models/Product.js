@@ -5,13 +5,14 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    category: {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    restaurant: {type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant'},
     description: {
         type: String,
         required: true,
     },
     price: {
         type: Number,
-        default: Date.now,
     },
 
 })

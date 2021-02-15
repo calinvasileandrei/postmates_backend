@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-
+const Category = require('../models/Category');
 
 //get all
-router.get('/', async (req,res)=>{
+router.get('/', async (req,res)=> {
     try {
         const products= await Product.find();
+        console.log("prod");
+        await products.forEach( async (p)=>{
+            console.log(p);
+            const category= await Category.findById(p.category);  
+            category.products.push(p._id);
+            let saved = await category.save()
+            console.log(saved);
+        })
         res.json(products);
     } catch (err) {
         res.json({message:err})
@@ -14,10 +22,28 @@ router.get('/', async (req,res)=>{
 });
 
 
+router.get('/updatePrices', async (req,res)=>{
+    try {
+        const products = await Product.find();
+        await  products.forEach( async (p)=>{
+            if(p.price == 0){
+                p.price = Math.floor(Math.random()*10)
+                await p.save()
+            }
+        });
+        res.json({"message":"done"})
+    }catch (e){
+        console.log("Err");
+    }
+})
+
+
 //create
 router.post('/', async (req,res)=>{
     const product = new Product({
         title: req.body.title,
+        restaurant: req.body.restaurant,
+        category: req.body.restaurant,
         description: req.body.description,
         price: req.body.price
     })
