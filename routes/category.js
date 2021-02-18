@@ -19,6 +19,7 @@ router.get('/', async (req,res)=>{
 //autogen
 router.get('/autogen', async (req,res)=>{
         console.log("start")
+         /*
          const restIds = await fetch(
            'https://api.documenu.com/v2/restaurants/search/fields?key=d3c4db1e9a1f366c04893735800ff32f'
          )
@@ -82,7 +83,11 @@ router.get('/autogen', async (req,res)=>{
 
 
         });
+
         res.json(restaurants);
+
+          */
+        res.json({message:"Deprecated endpoint"});
     
 });
 
